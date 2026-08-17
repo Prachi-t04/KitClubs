@@ -1,21 +1,21 @@
-# 🏛️ KIT Club Portal
+# KIT Club Portal
 
-> A modern, full-stack campus club management and event portal built for **Kolhapur Institute of Technology (KIT)**.
-
----
-
-## 🌟 Key Features
-
-- **🔐 Role-Based Access Control (RBAC):** Distinct roles & dashboards for **Students**, **Club Heads**, and **Super Admins**.
-- **🏛️ Dynamic Club Profiles:** Customize club logos, past event photo galleries, faculty coordinators, contact emails, and social media handles.
-- **📅 Event Registration System:** Create and manage upcoming events with eligibility rules, capacity limits, confirmation popups, and live seat counters.
-- **💼 Recruitment Engine:** Club heads can design, edit, reorder, and evaluate custom application prompts; students apply seamlessly.
-- **☁️ Cloudinary Media Integration:** Upload club logos and event photos directly to Cloudinary cloud storage.
-- **🗄️ Cloud Database:** Powered by MongoDB Atlas with automated email notification fallbacks.
+> A modern, full-stack campus club management and event portal built for Kolhapur Institute of Technology (KIT).
 
 ---
 
-## 🛠️ Tech Stack
+## Key Features
+
+- **Role-Based Access Control (RBAC):** Distinct roles & dashboards for **Students**, **Club Heads**, and **Super Admins**.
+- ** Dynamic Club Profiles:** Customize club logos, past event photo galleries, faculty coordinators, contact emails, and social media handles.
+- ** Event Registration System:** Create and manage upcoming events with eligibility rules, capacity limits, confirmation popups, and live seat counters.
+- **Recruitment Engine:** Club heads can design, edit, reorder, and evaluate custom application prompts; students apply seamlessly.
+- **Cloudinary Media Integration:** Upload club logos and event photos directly to Cloudinary cloud storage.
+- ** Cloud Database:** Powered by MongoDB Atlas with automated email notification fallbacks.
+
+---
+
+##  Tech Stack
 
 - **Frontend:** React (Vite), TailwindCSS, Lucide Icons, Axios, React Router v6
 - **Backend:** Node.js, Express.js (ESM), Mongoose
@@ -25,7 +25,7 @@
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone the repository
 ```bash
