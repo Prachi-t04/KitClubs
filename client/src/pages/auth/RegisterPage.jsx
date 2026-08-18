@@ -66,10 +66,10 @@ export const RegisterPage = () => {
       });
 
       if (res.success) {
-        setSuccessMsg(res.message);
-        if (res.data?.verificationToken) {
-          setVerificationToken(res.data.verificationToken);
-        }
+        setSuccessMsg("Account Created Successfully! Redirecting to dashboard...");
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1200);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please check your inputs.');
@@ -101,32 +101,12 @@ export const RegisterPage = () => {
           <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center space-y-4">
             <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
             <h3 className="font-heading font-bold text-emerald-900 text-lg">Registration Successful!</h3>
-            <p className="text-xs text-emerald-800 leading-relaxed">
-              We have generated a verification token for your email <strong>{formData.email}</strong>.
+            <p className="text-xs text-emerald-800 leading-relaxed font-semibold">
+              {successMsg}
             </p>
-
-            {verificationToken && (
-              <div className="p-3 bg-white rounded-lg border border-emerald-200 text-left text-xs space-y-1">
-                <p className="font-semibold text-slate-700">Dev Quick Verification Link:</p>
-                <Link
-                  to={`/verify-email/${verificationToken}`}
-                  className="text-brand-700 font-bold underline break-all hover:text-brand-900"
-                >
-                  Click here to verify account now →
-                </Link>
-              </div>
-            )}
-
-            <div className="pt-2">
-              <Link
-                to="/login"
-                className="inline-block px-6 py-2.5 bg-brand-700 text-white font-semibold rounded-lg text-xs hover:bg-brand-800 transition-colors"
-              >
-                Go to Login Page
-              </Link>
-            </div>
           </div>
         ) : (
+
           <form onSubmit={handleSubmit} className="space-y-4">
             
             <div>

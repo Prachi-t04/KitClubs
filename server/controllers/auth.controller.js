@@ -7,10 +7,14 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendVerificationEmail, sendPasswordResetEmail } from "../services/email.service.js";
 
 const generateToken = (id) => {
+  let rawExpires = process.env.JWT_EXPIRES_IN ? String(process.env.JWT_EXPIRES_IN).trim().replace(/^["']|["']$/g, '') : "7d";
+  const expires = rawExpires || "7d";
+
   return jwt.sign({ id }, process.env.JWT_SECRET || "kit_club_portal_jwt_secret_key_2026_super_secure", {
-    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+    expiresIn: expires,
   });
 };
+
 
 export const register = asyncHandler(async (req, res) => {
   const { name, prn, email, password, branch, year, division } = req.body;
@@ -41,21 +45,28 @@ export const register = asyncHandler(async (req, res) => {
     branch,
     year,
     division: division || "A",
+    isEmailVerified: true,
   });
 
-  const verificationToken = user.generateVerificationToken();
   await user.save();
 
-  // Send verification email (logged to console if SMTP not configured)
-  await sendVerificationEmail(user.email, verificationToken, user.name);
+  const token = generateToken(user._id);
 
   res.status(201).json(
     new ApiResponse(201, {
-      userId: user._id,
-      email: user.email,
-      isEmailVerified: user.isEmailVerified,
-      verificationToken, // Returned for dev testing convenience
-    }, "Registration successful! Please check your email to verify your account.")
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        prn: user.prn,
+        branch: user.branch,
+        year: user.year,
+        division: user.division,
+        role: user.role,
+        isEmailVerified: true,
+      },
+    }, "Registration successful! Welcome to KIT Club Portal.")
   );
 });
 
@@ -138,10 +149,6 @@ export const login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid email or password");
   }
 
-  if (!user.isEmailVerified) {
-    throw new ApiError(403, "Please verify your email address before logging in");
-  }
-
   const token = generateToken(user._id);
 
   res.status(200).json(
@@ -161,6 +168,7 @@ export const login = asyncHandler(async (req, res) => {
       },
     }, "Login successful")
   );
+
 });
 
 export const forgotPassword = asyncHandler(async (req, res) => {

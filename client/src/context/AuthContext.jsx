@@ -44,8 +44,16 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     const res = await api.post('/auth/register', formData);
+    if (res.data.success && res.data.data?.token) {
+      const { token: jwtToken, user: userData } = res.data.data;
+      setToken(jwtToken);
+      setUser(userData);
+      localStorage.setItem('kit_token', jwtToken);
+      localStorage.setItem('kit_user', JSON.stringify(userData));
+    }
     return res.data;
   };
+
 
   const logout = () => {
     setToken(null);
