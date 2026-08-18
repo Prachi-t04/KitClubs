@@ -31,8 +31,15 @@ const seed = async () => {
       console.log("Admin account already exists");
     }
 
+    // Clear existing sample clubs, recruitments, and events to ensure fresh seed
+    await Club.deleteMany({});
+    await Recruitment.deleteMany({});
+    await Event.deleteMany({});
+
+
     // 2. Define 12 Clubs + Club Heads
     const sampleClubs = [
+
       {
         name: "National Service Scheme",
         category: "Social",
@@ -207,8 +214,21 @@ const seed = async () => {
         });
       }
 
+      // Upsert / Update existing club
       let club = await Club.findOne({ name: c.name });
-      if (!club) {
+      if (club) {
+        // Update existing club details
+        club.category = c.category;
+        club.shortDescription = c.shortDescription;
+        club.detailedDescription = c.detailedDescription;
+        club.facultyCoordinator = c.facultyCoordinator;
+        club.contactEmail = c.contactEmail;
+        club.activities = c.activities;
+        club.achievements = c.achievements;
+        club.clubHead = headUser._id;
+        await club.save();
+        console.log(`Updated Club: ${c.name}`);
+      } else {
         club = await Club.create({
           name: c.name,
           category: c.category,
@@ -263,9 +283,10 @@ const seed = async () => {
           createdBy: headUser._id,
         });
 
-        console.log(`Seeded Club: ${c.name} with Head: ${c.headName}`);
+        console.log(`Created & Seeded Club: ${c.name}`);
       }
     }
+
 
     console.log("Seeding complete!");
     process.exit(0);
