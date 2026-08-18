@@ -236,7 +236,7 @@ export const ManageClubProfile = () => {
               <Camera className="w-4 h-4 text-brand-700" /> Club Profile Picture / Logo
             </label>
             
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex items-center gap-4">
               <div className="w-20 h-20 rounded-2xl bg-white border border-slate-300 flex items-center justify-center overflow-hidden shadow-sm shrink-0 relative">
                 {formData.logo ? (
                   <img src={formData.logo} alt="Club Logo Preview" className="w-full h-full object-cover" />
@@ -250,46 +250,35 @@ export const ManageClubProfile = () => {
                 )}
               </div>
 
-              <div className="flex-1 space-y-2 w-full">
-                <div className="flex items-center gap-2">
-                  <label className="px-3.5 py-2 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs cursor-pointer inline-flex items-center gap-1.5 shadow-xs transition-all">
-                    <Upload className="w-3.5 h-3.5" />
-                    {uploadingLogo ? 'Uploading to Cloudinary...' : 'Upload Image File'}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoFileUpload}
-                      disabled={uploadingLogo}
-                      className="hidden"
-                    />
-                  </label>
-                  <span className="text-[11px] text-slate-400">or enter image URL below</span>
-                </div>
-
-                <input
-                  type="text"
-                  name="logo"
-                  value={formData.logo}
-                  onChange={handleChange}
-                  placeholder="Cloudinary image URL (autofilled on upload)"
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 bg-white font-mono text-slate-700"
-                />
+              <div className="space-y-1">
+                <label className="px-4 py-2.5 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs cursor-pointer inline-flex items-center gap-2 shadow-xs transition-all">
+                  <Upload className="w-4 h-4" />
+                  {uploadingLogo ? 'Uploading to Cloudinary...' : 'Upload Image File'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleLogoFileUpload}
+                    disabled={uploadingLogo}
+                    className="hidden"
+                  />
+                </label>
+                <p className="text-[11px] text-slate-400">Upload a logo or avatar for your club</p>
               </div>
             </div>
           </div>
 
           {/* Event Photo Gallery Section */}
           <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/60 pb-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/60 pb-3">
               <div>
                 <label className="block font-bold text-slate-800 text-sm flex items-center gap-2">
                   <Image className="w-4 h-4 text-purple-600" /> Previous Event Photo Gallery ({formData.eventGallery.length})
                 </label>
-                <p className="text-[11px] text-slate-500">Upload event photos directly to Cloudinary or paste photo image URLs</p>
+                <p className="text-[11px] text-slate-500">Upload photos from past club events to feature on your public page</p>
               </div>
 
-              <label className="px-3 py-1.5 bg-purple-700 hover:bg-purple-800 text-white font-bold rounded-xl text-xs cursor-pointer inline-flex items-center gap-1.5 shadow-xs transition-all shrink-0 self-start sm:self-auto">
-                <Upload className="w-3.5 h-3.5" />
+              <label className="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold rounded-xl text-xs cursor-pointer inline-flex items-center gap-2 shadow-xs transition-all shrink-0 self-start sm:self-auto">
+                <Upload className="w-4 h-4" />
                 {uploadingGallery ? 'Uploading...' : 'Upload Photo(s)'}
                 <input
                   type="file"
@@ -302,25 +291,8 @@ export const ManageClubProfile = () => {
               </label>
             </div>
 
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={newPhotoUrl}
-                onChange={(e) => setNewPhotoUrl(e.target.value)}
-                placeholder="Or paste an image URL to add..."
-                className="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-300 bg-white"
-              />
-              <button
-                type="button"
-                onClick={handleAddGalleryPhoto}
-                className="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg text-xs shrink-0 flex items-center gap-1"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add URL
-              </button>
-            </div>
-
             {/* Gallery Grid Preview */}
-            {formData.eventGallery.length > 0 && (
+            {formData.eventGallery.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                 {formData.eventGallery.map((photo, idx) => (
                   <div key={idx} className="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-100 aspect-video shadow-2xs">
@@ -336,8 +308,11 @@ export const ManageClubProfile = () => {
                   </div>
                 ))}
               </div>
+            ) : (
+              <p className="text-xs text-slate-400 italic text-center py-3">No event photos uploaded yet. Click "Upload Photo(s)" above to add photos.</p>
             )}
           </div>
+
 
           <div>
             <label className="block font-semibold text-slate-700 mb-1">Short Description (Card Summary)</label>
