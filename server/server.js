@@ -33,9 +33,13 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Health Check
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "OK", message: "KIT Club Portal Backend API is running live" });
+});
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "OK", message: "KIT Club Portal Backend is healthy" });
 });
+
 
 // API Routes
 app.use("/api/auth", authRoutes);
